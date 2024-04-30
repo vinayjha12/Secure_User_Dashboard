@@ -1,26 +1,24 @@
+// App.tsx
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route,Routes,Navigate } from 'react-router-dom';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import DashboardPage from './pages/DashboardPage';
+import LandingPage from './pages/LandingPgae';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const isAuthenticated = localStorage.getItem('token');
+
+    return (
+        <Router>
+            <Routes>
+            <Route path="/" Component={LandingPage} />
+                <Route path="/dashboard" element={isAuthenticated ? <DashboardPage /> : <Navigate to="/signin" />} />      
+                <Route path="/signin" Component={SignInPage} />
+                <Route path="/signup" Component={SignUpPage} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
